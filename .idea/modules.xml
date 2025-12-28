@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/prompthub.iml" filepath="$PROJECT_DIR$/prompthub.iml" />
+      <module fileurl="file://$PROJECT_DIR$/prompthub-backend.iml" filepath="$PROJECT_DIR$/prompthub-backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/prompthub-backend.main.iml" filepath="$PROJECT_DIR$/.idea/modules/prompthub-backend.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/prompthub-backend.test.iml" filepath="$PROJECT_DIR$/.idea/modules/prompthub-backend.test.iml" />
     </modules>
   </component>
 </project>
