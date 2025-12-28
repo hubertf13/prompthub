@@ -7,4 +7,11 @@
       <module name="prompthub-backend.test" target="21" />
     </bytecodeTargetLevel>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="prompthub-backend" options="-parameters" />
+      <module name="prompthub-backend.main" options="-parameters" />
+      <module name="prompthub-backend.test" options="-parameters" />
+    </option>
+  </component>
 </project>
