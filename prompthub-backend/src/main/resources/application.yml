@@ -1,16 +1,21 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/prompthub
-    username: postgres
-    password: root
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/prompthub}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:root}
     driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     show-sql: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    open-in-view: false
+
+application:
+  security:
+    jwt:
+      secret-key: ${SECRET_KEY:31715b55506275215067523f2e3c6d2d4f4f4b463e5739273a264331702961597856783f5a33584135593d6c2f224c70764d324e5925664224593375384553}
+      expiration: ${JWT_EXPIRATION:86400000}
 
 server:
   port: 8080
