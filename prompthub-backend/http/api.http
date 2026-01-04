@@ -8,6 +8,10 @@ Content-Type: application/json
   "password": "admin"
 }
 
+> {%
+    client.global.set("auth_token", response.body.token);
+%}
+
 ### authenticate
 POST http://localhost:8080/api/v1/auth/authenticate
 Content-Type: application/json
@@ -17,10 +21,52 @@ Content-Type: application/json
   "password": "admin"
 }
 
+> {%
+    client.global.set("auth_token", response.body.token);
+%}
+
 ### getUserIdFromToken
 GET http://localhost:8080/api/v1/auth/user
-Authorization: Bearer
+Authorization: Bearer {{auth_token}}
 
 ### logout
 POST http://localhost:8080/api/v1/auth/logout
-Authorization: Bearer
+Authorization: Bearer {{auth_token}}
+
+### PostController
+@post_id = 1
+@user_id = 1
+
+### findById
+GET http://localhost:8080/api/v1/post/{{post_id}}
+Authorization: Bearer {{auth_token}}
+
+### findAll
+GET http://localhost:8080/api/v1/post/all
+
+### findPostsByUserId
+GET http://localhost:8080/api/v1/post/all/user/{{user_id}}
+
+### addPost
+POST http://localhost:8080/api/v1/post/add
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "prompt": "test",
+  "tag": "#testTag"
+}
+
+### deleteById
+DELETE http://localhost:8080/api/v1/post/delete/{{post_id}}
+Authorization: Bearer {{auth_token}}
+
+### updatePost
+PATCH http://localhost:8080/api/v1/post/update/{{post_id}}
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "prompt": "testtest",
+  "tag": "#testTagtestTag"
+}

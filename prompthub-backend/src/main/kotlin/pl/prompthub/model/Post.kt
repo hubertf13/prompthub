@@ -8,7 +8,7 @@ class Post(
 
     @Id
     @GeneratedValue
-    val id: Long,
+    val id: Long? = null,
     var prompt: String,
     var tag: String,
 
