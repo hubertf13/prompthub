@@ -69,7 +69,7 @@ fun PromptHubTopBar(
                         text = { Text("Create Prompt") },
                         onClick = {
                             menuExpanded = false
-                            // navController.navigate(Screen.CreatePrompt.route)
+                            navController.navigate(Screen.CreatePost.route)
                         }
                     )
 
