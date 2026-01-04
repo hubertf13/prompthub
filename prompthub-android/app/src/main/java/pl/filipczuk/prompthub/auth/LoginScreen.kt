@@ -10,12 +10,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.navigation.NavController
 import pl.filipczuk.prompthub.navigation.Screen
 
 @Composable
 fun LoginScreen(navController: NavController) {
+
+    val context = LocalContext.current
+    val viewModel = remember {
+        AuthViewModel(context)
+    }
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -25,7 +31,11 @@ fun LoginScreen(navController: NavController) {
         subtitle = "Enter your details to log in to your account",
         buttonText = "Login",
         onSubmit = {
-            // TODO: ViewModel.login(email, password)
+            viewModel.login(email, password) {
+                navController.navigate(Screen.Home.route) {
+                    popUpTo(Screen.Login.route) { inclusive = true }
+                }
+            }
         },
         footer = {
             TextButton(onClick = { navController.navigate(Screen.Register.route) }) {

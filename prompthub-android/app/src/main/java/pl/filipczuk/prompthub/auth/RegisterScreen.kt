@@ -9,11 +9,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.navigation.NavController
+import pl.filipczuk.prompthub.navigation.Screen
 
 @Composable
 fun RegisterScreen(navController: NavController) {
+
+    val context = LocalContext.current
+    val viewModel = remember {
+        AuthViewModel(context)
+    }
 
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -25,7 +32,17 @@ fun RegisterScreen(navController: NavController) {
         subtitle = "Enter your details to create a new account",
         buttonText = "Create account",
         onSubmit = {
-            // TODO: ViewModel.register(username, email, password)
+
+            if (password != confirmPassword) {
+                // TODO: pokaż błąd (snackbar)
+                return@AuthCard
+            }
+
+            viewModel.register(username, email, password) {
+                navController.navigate(Screen.Home.route) {
+                    popUpTo(Screen.Register.route) { inclusive = true }
+                }
+            }
         },
         content = {
 

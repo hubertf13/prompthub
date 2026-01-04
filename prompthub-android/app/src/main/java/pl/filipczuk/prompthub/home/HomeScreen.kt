@@ -7,18 +7,26 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import pl.filipczuk.prompthub.navigation.Screen
+import pl.filipczuk.prompthub.auth.AuthViewModel
 
 @Composable
 fun HomeScreen(navController: NavController) {
+
+    val context = LocalContext.current
+    val authViewModel = remember {
+        AuthViewModel(context)
+    }
+
     Scaffold(
         topBar = {
             PromptHubTopBar(
-                onLoginClick = { navController.navigate(Screen.Login.route) },
-                onRegisterClick = { navController.navigate(Screen.Register.route) }
+                navController = navController,
+                authViewModel = authViewModel
             )
         }
     ) { padding ->
