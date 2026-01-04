@@ -11,6 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import pl.filipczuk.prompthub.navigation.PromptHubNavGraph
 import pl.filipczuk.prompthub.ui.theme.PromptHubTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,12 +21,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PromptHubTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Androidzie",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                val navController = rememberNavController()
+                PromptHubNavGraph(navController)
             }
         }
     }
