@@ -1,8 +1,7 @@
-package pl.prompthub.repository
+package pl.prompthub.post
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
-import pl.prompthub.model.Post
 
 @Repository
 interface PostRepository : JpaRepository<Post, Long> {

@@ -1,8 +1,8 @@
-package pl.prompthub.mapper
+package pl.prompthub.post.mapper
 
-import pl.prompthub.dto.AuthorResponse
-import pl.prompthub.dto.PostResponse
-import pl.prompthub.model.Post
+import pl.prompthub.post.dto.AuthorResponse
+import pl.prompthub.post.dto.PostResponse
+import pl.prompthub.post.Post
 
 fun Post.toResponse(): PostResponse =
     PostResponse(
@@ -14,3 +14,5 @@ fun Post.toResponse(): PostResponse =
             username = user.getActualUsername()
         )
     )
+
+fun List<Post>.toResponseList(): List<PostResponse> = map { it.toResponse() }

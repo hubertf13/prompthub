@@ -1,15 +1,14 @@
-package pl.prompthub.service
+package pl.prompthub.post
 
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import pl.prompthub.dto.CreatePostRequest
-import pl.prompthub.dto.PostResponse
-import pl.prompthub.dto.UpdatePostRequest
+import pl.prompthub.post.dto.CreatePostRequest
+import pl.prompthub.post.dto.PostResponse
+import pl.prompthub.post.dto.UpdatePostRequest
 import pl.prompthub.exception.PostNotFoundException
 import pl.prompthub.exception.UnauthorizedOperationException
-import pl.prompthub.mapper.toResponse
-import pl.prompthub.model.Post
-import pl.prompthub.repository.PostRepository
+import pl.prompthub.post.mapper.toResponse
+import pl.prompthub.post.mapper.toResponseList
 import pl.prompthub.security.facade.AuthenticationFacade
 import pl.prompthub.security.user.User
 
@@ -44,8 +43,7 @@ class PostService(
 
     fun findAll(): List<PostResponse> {
         log.info("Finding all posts")
-        return postRepository.findAll()
-            .map { it.toResponse() }
+        return postRepository.findAll().toResponseList()
     }
 
     fun findPostsByUserId(userId: Long): List<PostResponse> {

@@ -1,4 +1,4 @@
-package pl.prompthub.model
+package pl.prompthub.post
 
 import pl.prompthub.security.user.User
 import jakarta.persistence.*

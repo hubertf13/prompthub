@@ -1,11 +1,10 @@
-package pl.prompthub.controller
+package pl.prompthub.post
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import pl.prompthub.dto.CreatePostRequest
-import pl.prompthub.dto.PostResponse
-import pl.prompthub.dto.UpdatePostRequest
-import pl.prompthub.service.PostService
+import pl.prompthub.post.dto.CreatePostRequest
+import pl.prompthub.post.dto.PostResponse
+import pl.prompthub.post.dto.UpdatePostRequest
 
 @RestController
 @RequestMapping("/api/v1/post")

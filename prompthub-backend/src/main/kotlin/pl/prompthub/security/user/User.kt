@@ -2,7 +2,7 @@ package pl.prompthub.security.user
 
 import com.fasterxml.jackson.annotation.JsonGetter
 import com.fasterxml.jackson.annotation.JsonIgnore
-import pl.prompthub.model.Post
+import pl.prompthub.post.Post
 import pl.prompthub.security.token.Token
 import jakarta.persistence.*
 import org.springframework.security.core.GrantedAuthority
