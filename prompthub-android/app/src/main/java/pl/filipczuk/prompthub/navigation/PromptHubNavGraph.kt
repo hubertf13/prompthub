@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import pl.filipczuk.prompthub.auth.LoginScreen
+import pl.filipczuk.prompthub.auth.RegisterScreen
 import pl.filipczuk.prompthub.home.HomeScreen
 
 @Composable
@@ -17,6 +19,14 @@ fun PromptHubNavGraph(
         composable(Screen.Home.route) {
             HomeScreen(navController)
         }
-        // login i register dodamy zaraz
+
+        composable(Screen.Login.route) {
+            LoginScreen(navController)
+        }
+
+        composable(Screen.Register.route) {
+            RegisterScreen(navController)
+        }
+
     }
 }

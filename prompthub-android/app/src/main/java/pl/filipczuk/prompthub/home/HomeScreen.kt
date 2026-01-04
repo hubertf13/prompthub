@@ -10,14 +10,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import pl.filipczuk.prompthub.navigation.Screen
 
 @Composable
 fun HomeScreen(navController: NavController) {
     Scaffold(
         topBar = {
             PromptHubTopBar(
-                onLoginClick = { /* navigate */ },
-                onRegisterClick = { /* navigate */ }
+                onLoginClick = { navController.navigate(Screen.Login.route) },
+                onRegisterClick = { navController.navigate(Screen.Register.route) }
             )
         }
     ) { padding ->
