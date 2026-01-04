@@ -16,15 +16,16 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun SearchBar(
-    value: String = "",
-    onValueChange: (String) -> Unit = {}
+    value: String,
+    onValueChange: (String) -> Unit
 ) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
-        modifier = Modifier
-            .fillMaxWidth(),
-        placeholder = { Text("Search for a tag or a username") },
+        modifier = Modifier.fillMaxWidth(),
+        placeholder = {
+            Text("Search for a tag or a username")
+        },
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,

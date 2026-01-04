@@ -60,6 +60,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.material.icons.extended)
 
     implementation(libs.retrofit)
     implementation(libs.converter.moshi)

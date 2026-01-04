@@ -19,5 +19,6 @@ data class PostResponse(
 @JsonClass(generateAdapter = true)
 data class AuthorResponse(
     val id: Long,
-    val username: String
+    val username: String,
+    val email: String
 )

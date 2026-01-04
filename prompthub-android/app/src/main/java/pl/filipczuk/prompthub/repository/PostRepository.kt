@@ -5,6 +5,7 @@ import pl.filipczuk.prompthub.api.PostApi
 import pl.filipczuk.prompthub.core.network.RetrofitProvider
 import pl.filipczuk.prompthub.core.storage.TokenStorage
 import pl.filipczuk.prompthub.dto.CreatePostRequest
+import pl.filipczuk.prompthub.dto.PostResponse
 
 class PostRepository(
     context: Context
@@ -22,5 +23,9 @@ class PostRepository(
                 tag = tag
             )
         )
+    }
+
+    suspend fun getAllPosts(): List<PostResponse> {
+        return api.getAllPosts()
     }
 }
