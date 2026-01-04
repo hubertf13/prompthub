@@ -11,7 +11,8 @@ fun Post.toResponse(): PostResponse =
         tag = tag,
         author = AuthorResponse(
             id = requireNotNull(user.id),
-            username = user.getActualUsername()
+            username = user.getActualUsername(),
+            email = user.getUsername()
         )
     )
 
