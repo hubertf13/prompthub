@@ -32,4 +32,17 @@ class ProfileViewModel(
             }
         }
     }
+
+    fun deletePost(
+        postId: Long
+    ) {
+        viewModelScope.launch {
+            try {
+                repository.deletePost(postId)
+                posts.value = posts.value.filterNot { it.id == postId }
+            } catch (e: Exception) {
+
+            }
+        }
+    }
 }

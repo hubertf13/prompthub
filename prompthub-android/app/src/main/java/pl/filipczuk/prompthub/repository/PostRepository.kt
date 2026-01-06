@@ -32,4 +32,8 @@ class PostRepository(
     suspend fun getMyPosts(): List<PostResponse> {
         return api.getMyPosts()
     }
+
+    suspend fun deletePost(postId: Long) {
+        api.deletePost(postId)
+    }
 }

@@ -3,8 +3,10 @@ package pl.filipczuk.prompthub.api
 import pl.filipczuk.prompthub.dto.CreatePostRequest
 import pl.filipczuk.prompthub.dto.PostResponse
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface PostApi {
 
@@ -18,4 +20,9 @@ interface PostApi {
 
     @GET("post/all/user/me")
     suspend fun getMyPosts(): List<PostResponse>
+
+    @DELETE("post/delete/{id}")
+    suspend fun deletePost(
+        @Path("id") postId: Long
+    )
 }
