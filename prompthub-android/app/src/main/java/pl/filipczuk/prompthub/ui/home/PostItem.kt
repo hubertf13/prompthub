@@ -30,10 +30,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import pl.filipczuk.prompthub.dto.PostResponse
+import pl.filipczuk.prompthub.viewmodel.HomeViewModel
 
 @Composable
 fun PostItem(
     post: PostResponse,
+    viewModel: HomeViewModel,
     modifier: Modifier = Modifier,
     onTagClick: (String) -> Unit
 ) {
@@ -89,6 +91,8 @@ fun PostItem(
                             post.prompt
                         )
                         clipboardManager?.setPrimaryClip(clip)
+
+                        viewModel.notifyPostCopied(post.id)
 
                         Toast
                             .makeText(

@@ -28,6 +28,7 @@ class SecurityConfig(
                     .requestMatchers("/api/v1/auth/**").permitAll()
                     .requestMatchers("/api/v1/post/all").permitAll()
                     .requestMatchers("/api/v1/post/all/user/**").permitAll()
+                    .requestMatchers("/api/v1/post/copy/**").permitAll()
                     .anyRequest().authenticated()
             }
             .sessionManagement { session ->

@@ -38,4 +38,7 @@ interface PostApi {
         @Path("id") postId: Long,
         @Body request: UpdatePostRequest
     ): PostResponse
+
+    @POST("post/copy/{id}")
+    suspend fun notifyPostCopied(@Path("id") postId: Long)
 }

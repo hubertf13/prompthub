@@ -34,6 +34,9 @@ dependencies {
 
     /* ================= SECURITY ================= */
     implementation("org.springframework.security:spring-security-crypto")
+
+    /* ================= FIREBASE ================= */
+    implementation("com.google.firebase:firebase-admin:9.2.0")
 }
 
 tasks.test {

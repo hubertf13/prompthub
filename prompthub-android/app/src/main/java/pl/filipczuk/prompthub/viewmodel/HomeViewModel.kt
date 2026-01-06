@@ -57,4 +57,14 @@ class HomeViewModel(
                 }
             }
     }
+
+    fun notifyPostCopied(postId: Long) {
+        viewModelScope.launch {
+            try {
+                repository.notifyPostCopied(postId)
+            } catch (e: Exception) {
+
+            }
+        }
+    }
 }

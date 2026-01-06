@@ -31,7 +31,9 @@ class User(
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    var posts: MutableList<Post> = mutableListOf()
+    var posts: MutableList<Post> = mutableListOf(),
+
+    var fcmToken: String? = null
 
 ) : UserDetails {
 

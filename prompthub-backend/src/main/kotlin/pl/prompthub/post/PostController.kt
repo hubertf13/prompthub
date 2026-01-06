@@ -44,4 +44,7 @@ class PostController(
         @RequestBody updatedPost: UpdatePostRequest
     ): ResponseEntity<PostResponse> =
         ResponseEntity.ok(postService.updatePost(id, updatedPost))
+
+    @PostMapping("/copy/{id}")
+    fun notifyPostCopied(@PathVariable id: Long) = postService.notifyPostCopied(id)
 }

@@ -17,14 +17,13 @@ class PostRepository(
         .retrofit
         .create(PostApi::class.java)
 
-    suspend fun createPost(prompt: String, tag: String) {
+    suspend fun createPost(prompt: String, tag: String) =
         api.createPost(
             CreatePostRequest(
                 prompt = prompt,
                 tag = tag
             )
         )
-    }
 
     suspend fun getAllPosts(): List<PostResponse> = api.getAllPosts()
 
@@ -40,4 +39,6 @@ class PostRepository(
     ): PostResponse {
         return api.updatePost(postId, request)
     }
+
+    suspend fun notifyPostCopied(postId: Long) = api.notifyPostCopied(postId)
 }

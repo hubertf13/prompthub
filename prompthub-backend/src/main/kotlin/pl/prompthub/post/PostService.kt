@@ -2,11 +2,12 @@ package pl.prompthub.post
 
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import pl.prompthub.exception.PostNotFoundException
+import pl.prompthub.exception.UnauthorizedOperationException
+import pl.prompthub.notification.PushNotificationService
 import pl.prompthub.post.dto.CreatePostRequest
 import pl.prompthub.post.dto.PostResponse
 import pl.prompthub.post.dto.UpdatePostRequest
-import pl.prompthub.exception.PostNotFoundException
-import pl.prompthub.exception.UnauthorizedOperationException
 import pl.prompthub.post.mapper.toResponse
 import pl.prompthub.post.mapper.toResponseList
 import pl.prompthub.security.facade.AuthenticationFacade
@@ -15,7 +16,8 @@ import pl.prompthub.security.user.User
 @Service
 class PostService(
     private val postRepository: PostRepository,
-    private val authenticationFacade: AuthenticationFacade
+    private val authenticationFacade: AuthenticationFacade,
+    private val pushNotificationService: PushNotificationService
 ) {
 
     private val log = LoggerFactory.getLogger(PostService::class.java)
@@ -28,7 +30,7 @@ class PostService(
     fun addPost(request: CreatePostRequest): PostResponse {
         log.info("Adding post: {}", request)
 
-        val user = authenticatedUser()
+        val user = authenticationFacade.authenticatedUser()
 
         val post = Post(
             prompt = request.prompt,
@@ -53,7 +55,7 @@ class PostService(
     }
 
     fun findMyPosts(): List<PostResponse> {
-        val user = authenticatedUser()
+        val user = authenticationFacade.authenticatedUser()
         val userId = user.id ?: throw IllegalStateException("Authenticated user has no ID")
         log.info("Finding all posts for logged in user: {}", user.email)
 
@@ -81,17 +83,12 @@ class PostService(
         postRepository.deleteById(id)
     }
 
+    fun notifyPostCopied(id: Long) =
+        pushNotificationService.sendCopyNotification(findExistingPost(id).user)
+
     private fun findExistingPost(id: Long): Post =
         postRepository.findPostById(id)
             ?: throw PostNotFoundException("Post not found with id: $id")
-
-    private fun authenticatedUser(): User {
-        val authentication = authenticationFacade.authentication
-            ?: throw UnauthorizedOperationException("Unauthorized")
-
-        return authentication.principal as? User
-            ?: throw UnauthorizedOperationException("Invalid authentication principal")
-    }
 
     private fun verifyOwnership(post: Post) {
         val authenticatedEmail = authenticationFacade.authentication?.name
