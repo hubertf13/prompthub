@@ -47,4 +47,9 @@ class AuthRepository(
             AuthState.isLoggedIn.value = false
         }
     }
+
+    fun clearToken() {
+        tokenStorage.clear()
+        AuthState.isLoggedIn.value = false
+    }
 }

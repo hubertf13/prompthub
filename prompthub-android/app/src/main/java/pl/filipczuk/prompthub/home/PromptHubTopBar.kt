@@ -93,6 +93,8 @@ fun PromptHubTopBar(
                     )
                 }
             } else {
+                authViewModel.clearToken()
+
                 TextButton(onClick = {
                     navController.navigate(Screen.Login.route)
                 }) {
