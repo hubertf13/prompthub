@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import pl.filipczuk.prompthub.auth.LoginScreen
 import pl.filipczuk.prompthub.auth.RegisterScreen
 import pl.filipczuk.prompthub.home.HomeScreen
+import pl.filipczuk.prompthub.profile.ProfileScreen
 import pl.filipczuk.prompthub.ui.CreatePostScreen
 
 @Composable
@@ -31,6 +32,10 @@ fun PromptHubNavGraph(
 
         composable(Screen.CreatePost.route) {
             CreatePostScreen(navController)
+        }
+
+        composable(Screen.MyProfile.route) {
+            ProfileScreen(navController)
         }
     }
 }

@@ -48,6 +48,4 @@ class AuthViewModel(
             onDone()
         }
     }
-
-    fun clearToken() = repository.clearToken()
 }

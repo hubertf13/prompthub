@@ -15,4 +15,7 @@ interface PostApi {
 
     @GET("post/all")
     suspend fun getAllPosts(): List<PostResponse>
+
+    @GET("post/all/user/me")
+    suspend fun getMyPosts(): List<PostResponse>
 }

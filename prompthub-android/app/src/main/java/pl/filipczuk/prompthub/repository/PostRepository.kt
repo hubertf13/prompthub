@@ -28,4 +28,8 @@ class PostRepository(
     suspend fun getAllPosts(): List<PostResponse> {
         return api.getAllPosts()
     }
+
+    suspend fun getMyPosts(): List<PostResponse> {
+        return api.getMyPosts()
+    }
 }

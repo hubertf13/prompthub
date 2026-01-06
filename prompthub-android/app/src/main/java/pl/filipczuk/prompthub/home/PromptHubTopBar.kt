@@ -61,7 +61,7 @@ fun PromptHubTopBar(
                         text = { Text("My Profile") },
                         onClick = {
                             menuExpanded = false
-                            // navController.navigate(Screen.Profile.route)
+                            navController.navigate(Screen.MyProfile.route)
                         }
                     )
 
@@ -93,8 +93,6 @@ fun PromptHubTopBar(
                     )
                 }
             } else {
-                authViewModel.clearToken()
-
                 TextButton(onClick = {
                     navController.navigate(Screen.Login.route)
                 }) {
