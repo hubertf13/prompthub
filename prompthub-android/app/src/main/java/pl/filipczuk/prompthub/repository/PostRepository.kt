@@ -6,6 +6,7 @@ import pl.filipczuk.prompthub.core.network.RetrofitProvider
 import pl.filipczuk.prompthub.core.storage.TokenStorage
 import pl.filipczuk.prompthub.dto.CreatePostRequest
 import pl.filipczuk.prompthub.dto.PostResponse
+import pl.filipczuk.prompthub.dto.UpdatePostRequest
 
 class PostRepository(
     context: Context
@@ -25,15 +26,18 @@ class PostRepository(
         )
     }
 
-    suspend fun getAllPosts(): List<PostResponse> {
-        return api.getAllPosts()
-    }
+    suspend fun getAllPosts(): List<PostResponse> = api.getAllPosts()
 
-    suspend fun getMyPosts(): List<PostResponse> {
-        return api.getMyPosts()
-    }
+    suspend fun getMyPosts(): List<PostResponse> = api.getMyPosts()
 
-    suspend fun deletePost(postId: Long) {
-        api.deletePost(postId)
+    suspend fun deletePost(postId: Long) = api.deletePost(postId)
+
+    suspend fun getPost(postId: Long): PostResponse = api.getPost(postId)
+
+    suspend fun updatePost(
+        postId: Long,
+        request: UpdatePostRequest
+    ): PostResponse {
+        return api.updatePost(postId, request)
     }
 }

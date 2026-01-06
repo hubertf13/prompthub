@@ -30,6 +30,7 @@ import androidx.navigation.NavController
 import pl.filipczuk.prompthub.auth.AuthViewModel
 import pl.filipczuk.prompthub.dto.PostResponse
 import pl.filipczuk.prompthub.home.PromptHubTopBar
+import pl.filipczuk.prompthub.navigation.Screen
 import pl.filipczuk.prompthub.ui.DeletePostDialog
 import pl.filipczuk.prompthub.ui.profile.ProfilePostItem
 import pl.filipczuk.prompthub.viewmodel.ProfileViewModel
@@ -121,7 +122,7 @@ fun ProfileScreen(
                                 ProfilePostItem(
                                     post = post,
                                     onEdit = {
-                                        // navController.navigate("${Screen.EditPost.route}/${post.id}")
+                                        navController.navigate("${Screen.EditPost.route}/${post.id}")
                                     },
                                     onDelete = {
                                         postToDelete = post

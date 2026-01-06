@@ -22,3 +22,9 @@ data class AuthorResponse(
     val username: String,
     val email: String
 )
+
+@JsonClass(generateAdapter = true)
+data class UpdatePostRequest(
+    val prompt: String,
+    val tag: String
+)

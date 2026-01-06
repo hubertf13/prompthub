@@ -2,13 +2,16 @@ package pl.filipczuk.prompthub.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import pl.filipczuk.prompthub.auth.LoginScreen
 import pl.filipczuk.prompthub.auth.RegisterScreen
 import pl.filipczuk.prompthub.home.HomeScreen
 import pl.filipczuk.prompthub.profile.ProfileScreen
 import pl.filipczuk.prompthub.ui.CreatePostScreen
+import pl.filipczuk.prompthub.ui.EditPostScreen
 
 @Composable
 fun PromptHubNavGraph(
@@ -36,6 +39,16 @@ fun PromptHubNavGraph(
 
         composable(Screen.MyProfile.route) {
             ProfileScreen(navController)
+        }
+
+        composable(
+            route = "${Screen.EditPost.route}/{postId}",
+            arguments = listOf(navArgument("postId") { type = NavType.LongType })
+        ) { backStackEntry ->
+            val postId = backStackEntry.arguments?.getLong("postId")
+            if (postId != null) {
+                EditPostScreen(navController = navController, postId = postId)
+            }
         }
     }
 }
