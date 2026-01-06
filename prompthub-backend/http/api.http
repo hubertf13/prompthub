@@ -47,6 +47,10 @@ GET http://localhost:8080/api/v1/post/all
 ### findPostsByUserId
 GET http://localhost:8080/api/v1/post/all/user/{{user_id}}
 
+### findMyPosts
+GET http://localhost:8080/api/v1/post/all/user/me
+Authorization: Bearer {{auth_token}}
+
 ### addPost
 POST http://localhost:8080/api/v1/post/add
 Authorization: Bearer {{auth_token}}

@@ -52,6 +52,15 @@ class PostService(
             .map { it.toResponse() }
     }
 
+    fun findMyPosts(): List<PostResponse> {
+        val user = authenticatedUser()
+        val userId = user.id ?: throw IllegalStateException("Authenticated user has no ID")
+        log.info("Finding all posts for logged in user: {}", user.email)
+
+        return postRepository.findAllByUserId(userId)
+            .map { it.toResponse() }
+    }
+
     fun updatePost(id: Long, updatedPost: UpdatePostRequest): PostResponse {
         val post = findExistingPost(id)
         verifyOwnership(post)

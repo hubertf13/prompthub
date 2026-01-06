@@ -24,6 +24,10 @@ class PostController(
     fun findPostsByUserId(@PathVariable id: Long): ResponseEntity<List<PostResponse>> =
         ResponseEntity.ok(postService.findPostsByUserId(id))
 
+    @GetMapping("/all/user/me")
+    fun findMyPosts(): ResponseEntity<List<PostResponse>> =
+        ResponseEntity.ok(postService.findMyPosts())
+
     @PostMapping("/add")
     fun addPost(@RequestBody request: CreatePostRequest): ResponseEntity<PostResponse> =
         ResponseEntity.ok(postService.addPost(request))
