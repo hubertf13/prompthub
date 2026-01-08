@@ -16,6 +16,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -50,6 +52,15 @@ fun EditPostScreen(
     var prompt by remember { mutableStateOf("") }
     var tag by remember { mutableStateOf("") }
 
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    editPostViewModel.error?.let {
+        LaunchedEffect(it) {
+            snackbarHostState.showSnackbar(message = it)
+            editPostViewModel.errorShown()
+        }
+    }
+
     LaunchedEffect(postId) {
         editPostViewModel.fetchPost(postId) {
             prompt = it.prompt
@@ -63,7 +74,8 @@ fun EditPostScreen(
                 navController = navController,
                 authViewModel = authViewModel
             )
-        }
+        },
+        snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { padding ->
 
         Column(
@@ -156,9 +168,6 @@ fun EditPostScreen(
                                     tag = tag,
                                     onSuccess = {
                                         navController.popBackStack()
-                                    },
-                                    onError = {
-                                        // TODO Snackbar
                                     }
                                 )
                             },

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -40,27 +39,24 @@ import pl.filipczuk.prompthub.navigation.Screen
 fun ProfileScreen(
     navController: NavController
 ) {
-
     val context = LocalContext.current
-
-    val authViewModel = remember {
-        AuthViewModel(context)
-    }
-
-    val viewModel = remember {
-        ProfileViewModel(context)
-    }
-
-    val username by viewModel.username
+    val authViewModel = remember { AuthViewModel(context) }
+    val viewModel = remember { ProfileViewModel(context) }
 
     val refreshState = rememberPullToRefreshState()
+    var postToDelete by remember { mutableStateOf<PostResponse?>(null) }
+    val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(Unit) {
         viewModel.loadMyPosts()
     }
 
-    var postToDelete by remember { mutableStateOf<PostResponse?>(null) }
-    val snackbarHostState = remember { SnackbarHostState() }
+    LaunchedEffect(viewModel.error) {
+        viewModel.error?.let {
+            snackbarHostState.showSnackbar(it)
+            viewModel.errorShown()
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -76,10 +72,8 @@ fun ProfileScreen(
 
         PullToRefreshBox(
             state = refreshState,
-            isRefreshing = viewModel.isLoading.value,
-            onRefresh = {
-                viewModel.loadMyPosts()
-            },
+            isRefreshing = viewModel.isLoading,
+            onRefresh = viewModel::loadMyPosts,
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize()
@@ -99,7 +93,7 @@ fun ProfileScreen(
                 Spacer(Modifier.height(4.dp))
 
                 Text(
-                    text = username?.let { "Welcome to your personalized profile page $it" }
+                    text = viewModel.username?.let { "Welcome to your personalized profile page $it" }
                         ?: "Welcome to your personalized profile page",
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.Gray
@@ -107,32 +101,22 @@ fun ProfileScreen(
 
                 Spacer(Modifier.height(24.dp))
 
-                when {
-                    viewModel.isLoading.value -> {
-                        CircularProgressIndicator()
-                    }
-
-                    viewModel.error.value != null -> {
-                        Text(
-                            text = viewModel.error.value!!,
-                            color = MaterialTheme.colorScheme.error
-                        )
-                    }
-
-                    else -> {
-                        LazyColumn {
-                            items(viewModel.posts.value) { post ->
-                                ProfilePostItem(
-                                    post = post,
-                                    onEdit = {
-                                        navController.navigate("${Screen.EditPost.route}/${post.id}")
-                                    },
-                                    onDelete = {
-                                        postToDelete = post
-                                    }
-                                )
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    items(
+                        items = viewModel.posts,
+                        key = { it.id }
+                    ) { post ->
+                        ProfilePostItem(
+                            post = post,
+                            onEdit = {
+                                navController.navigate("${Screen.EditPost.route}/${post.id}")
+                            },
+                            onDelete = {
+                                postToDelete = post
                             }
-                        }
+                        )
                     }
                 }
             }

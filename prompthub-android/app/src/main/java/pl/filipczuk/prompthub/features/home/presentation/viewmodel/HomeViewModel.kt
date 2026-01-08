@@ -1,10 +1,14 @@
 package pl.filipczuk.prompthub.features.home.presentation.viewmodel
 
 import android.content.Context
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import pl.filipczuk.prompthub.core.data.Result
 import pl.filipczuk.prompthub.features.home.data.remote.PostResponse
 import pl.filipczuk.prompthub.features.home.data.repository.PostRepository
 
@@ -14,57 +18,56 @@ class HomeViewModel(
 
     private val repository = PostRepository(context)
 
-    private val allPosts = mutableStateOf<List<PostResponse>>(emptyList())
+    private var allPosts by mutableStateOf<List<PostResponse>>(emptyList())
 
-    val posts = mutableStateOf<List<PostResponse>>(emptyList())
-    val searchQuery = mutableStateOf("")
+    var searchQuery by mutableStateOf("")
 
-    val isLoading = mutableStateOf(false)
-    val error = mutableStateOf<String?>(null)
+    val posts by derivedStateOf {
+        val query = searchQuery.trim()
+        if (query.isEmpty()) {
+            allPosts
+        } else {
+            allPosts.filter { post ->
+                post.tag.contains(query, ignoreCase = true) ||
+                        post.author.username.contains(query, ignoreCase = true)
+            }
+        }
+    }
+
+    var isLoading by mutableStateOf(false)
+        private set
+
+    var error by mutableStateOf<String?>(null)
+        private set
 
     fun loadPosts() {
         viewModelScope.launch {
-            isLoading.value = true
-            error.value = null
+            isLoading = true
+            error = null
 
-            try {
-                val result = repository.getAllPosts()
-                allPosts.value = result
-                applyFilter()
-            } catch (e: Exception) {
-                error.value = "Failed to load posts"
-            } finally {
-                isLoading.value = false
+            when (val result = repository.getAllPosts()) {
+                is Result.Success -> {
+                    allPosts = result.data
+                    // Nie musimy wywoływać applyFilter()! posts zaktualizuje się samo.
+                }
+                is Result.Error -> {
+                    error = result.error
+                }
             }
+            isLoading = false
         }
     }
 
     fun onSearchQueryChange(query: String) {
-        searchQuery.value = query
-        applyFilter()
+        searchQuery = query
     }
 
-    fun applyFilter() {
-        val query = searchQuery.value.trim()
-
-        posts.value =
-            if (query.isEmpty()) {
-                allPosts.value
-            } else {
-                allPosts.value.filter { post ->
-                    post.tag.contains(query, ignoreCase = true) ||
-                            post.author.username.contains(query, ignoreCase = true)
-                }
-            }
-    }
-
-    fun notifyPostCopied(postId: Long) {
+    fun notifyPostCopied(postId: Long) =
         viewModelScope.launch {
-            try {
-                repository.notifyPostCopied(postId)
-            } catch (e: Exception) {
-
-            }
+            repository.notifyPostCopied(postId)
         }
+
+    fun errorShown() {
+        error = null
     }
 }

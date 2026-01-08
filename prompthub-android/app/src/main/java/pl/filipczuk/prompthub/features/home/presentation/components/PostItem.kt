@@ -54,7 +54,6 @@ fun PostItem(
             modifier = Modifier.padding(16.dp)
         ) {
 
-            /* ---------- HEADER ---------- */
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -83,7 +82,6 @@ fun PostItem(
                     )
                 }
 
-                /* ---------- COPY ICON ---------- */
                 IconButton(
                     onClick = {
                         val clip = ClipData.newPlainText(
@@ -113,7 +111,6 @@ fun PostItem(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            /* ---------- PROMPT ---------- */
             Text(
                 text = post.prompt,
                 style = MaterialTheme.typography.bodyMedium
@@ -121,7 +118,6 @@ fun PostItem(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            /* ---------- TAG ---------- */
             Text(
                 text = "#${post.tag}",
                 style = MaterialTheme.typography.bodySmall,

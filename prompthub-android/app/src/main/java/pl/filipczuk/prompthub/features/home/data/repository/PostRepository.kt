@@ -1,7 +1,9 @@
 package pl.filipczuk.prompthub.features.home.data.repository
 
 import android.content.Context
+import pl.filipczuk.prompthub.core.data.Result
 import pl.filipczuk.prompthub.core.network.RetrofitProvider
+import pl.filipczuk.prompthub.core.network.safeApiCall
 import pl.filipczuk.prompthub.core.storage.AuthDataStorage
 import pl.filipczuk.prompthub.features.home.data.remote.CreatePostRequest
 import pl.filipczuk.prompthub.features.home.data.remote.PostApi
@@ -17,28 +19,39 @@ class PostRepository(
         .retrofit
         .create(PostApi::class.java)
 
-    suspend fun createPost(prompt: String, tag: String) =
+    suspend fun createPost(prompt: String, tag: String): Result<Unit, String> = safeApiCall {
         api.createPost(
             CreatePostRequest(
                 prompt = prompt,
                 tag = tag
             )
         )
+    }
 
-    suspend fun getAllPosts(): List<PostResponse> = api.getAllPosts()
+    suspend fun getAllPosts(): Result<List<PostResponse>, String> = safeApiCall {
+        api.getAllPosts()
+    }
 
-    suspend fun getMyPosts(): List<PostResponse> = api.getMyPosts()
+    suspend fun getMyPosts(): Result<List<PostResponse>, String> = safeApiCall {
+        api.getMyPosts()
+    }
 
-    suspend fun deletePost(postId: Long) = api.deletePost(postId)
+    suspend fun deletePost(postId: Long): Result<Unit, String> = safeApiCall {
+        api.deletePost(postId)
+    }
 
-    suspend fun getPost(postId: Long): PostResponse = api.getPost(postId)
+    suspend fun getPost(postId: Long): Result<PostResponse, String> = safeApiCall {
+        api.getPost(postId)
+    }
 
     suspend fun updatePost(
         postId: Long,
         request: UpdatePostRequest
-    ): PostResponse {
-        return api.updatePost(postId, request)
+    ): Result<PostResponse, String> = safeApiCall {
+        api.updatePost(postId, request)
     }
 
-    suspend fun notifyPostCopied(postId: Long) = api.notifyPostCopied(postId)
+    suspend fun notifyPostCopied(postId: Long): Result<Unit, String> = safeApiCall {
+        api.notifyPostCopied(postId)
+    }
 }

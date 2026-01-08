@@ -1,5 +1,7 @@
 package pl.filipczuk.prompthub.core.design_system.components
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -19,11 +21,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import pl.filipczuk.prompthub.features.auth.presentation.viewmodel.AuthViewModel
 import pl.filipczuk.prompthub.features.auth.domain.model.AuthState
+import pl.filipczuk.prompthub.features.auth.presentation.viewmodel.AuthViewModel
 import pl.filipczuk.prompthub.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,7 +43,15 @@ fun PromptHubTopBar(
         title = {
             Text(
                 text = "PromptHub",
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null
+                ) {
+                    navController.navigate(Screen.Home.route) {
+                        popUpTo(Screen.Home.route) { inclusive = true }
+                    }
+                }
             )
         },
         actions = {

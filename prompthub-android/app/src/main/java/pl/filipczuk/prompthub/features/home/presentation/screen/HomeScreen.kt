@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -14,47 +13,36 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
+import pl.filipczuk.prompthub.core.design_system.components.PromptHubTopBar
+import pl.filipczuk.prompthub.core.design_system.components.SearchBar
 import pl.filipczuk.prompthub.features.auth.presentation.viewmodel.AuthViewModel
 import pl.filipczuk.prompthub.features.home.presentation.components.PostItem
 import pl.filipczuk.prompthub.features.home.presentation.viewmodel.HomeViewModel
-import pl.filipczuk.prompthub.core.design_system.components.PromptHubTopBar
-import pl.filipczuk.prompthub.core.design_system.components.SearchBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     navController: NavController
 ) {
-
     val context = LocalContext.current
-
-    val authViewModel = remember {
-        AuthViewModel(context)
-    }
-
-    val viewModel = remember {
-        HomeViewModel(context)
-    }
+    val authViewModel = remember { AuthViewModel(context) }
+    val viewModel = remember { HomeViewModel(context) }
 
     val refreshState = rememberPullToRefreshState()
     val scope = rememberCoroutineScope()
@@ -83,10 +71,14 @@ fun HomeScreen(
                 notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
         }
+        viewModel.loadPosts()
     }
 
-    LaunchedEffect(Unit) {
-        viewModel.loadPosts()
+    LaunchedEffect(viewModel.error) {
+        viewModel.error?.let {
+            snackbarHostState.showSnackbar(it)
+            viewModel.errorShown()
+        }
     }
 
     Scaffold(
@@ -101,10 +93,8 @@ fun HomeScreen(
 
         PullToRefreshBox(
             state = refreshState,
-            isRefreshing = viewModel.isLoading.value,
-            onRefresh = {
-                viewModel.loadPosts()
-            },
+            isRefreshing = viewModel.isLoading,
+            onRefresh = viewModel::loadPosts,
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize()
@@ -118,43 +108,24 @@ fun HomeScreen(
                 HeroSection()
                 Spacer(Modifier.height(24.dp))
                 SearchBar(
-                    value = viewModel.searchQuery.value,
+                    value = viewModel.searchQuery,
                     onValueChange = viewModel::onSearchQueryChange
                 )
                 Spacer(Modifier.height(16.dp))
 
-                when {
-                    viewModel.isLoading.value && viewModel.posts.value.isEmpty() -> {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            CircularProgressIndicator()
-                        }
-                    }
-
-                    viewModel.error.value != null -> {
-                        Text(
-                            text = viewModel.error.value!!,
-                            color = MaterialTheme.colorScheme.error
+                LazyColumn(
+                    contentPadding = PaddingValues(bottom = 16.dp),
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    items(
+                        items = viewModel.posts,
+                        key = { it.id }
+                    ) { post ->
+                        PostItem(
+                            post = post,
+                            viewModel = viewModel,
+                            onTagClick = viewModel::onSearchQueryChange
                         )
-                    }
-
-                    else -> {
-                        LazyColumn(
-                            contentPadding = PaddingValues(bottom = 16.dp),
-                            modifier = Modifier.fillMaxSize()
-                        ) {
-                            items(viewModel.posts.value) { post ->
-                                PostItem(
-                                    post = post,
-                                    viewModel = viewModel,
-                                    onTagClick = { tag ->
-                                        viewModel.onSearchQueryChange(tag)
-                                    }
-                                )
-                            }
-                        }
                     }
                 }
             }

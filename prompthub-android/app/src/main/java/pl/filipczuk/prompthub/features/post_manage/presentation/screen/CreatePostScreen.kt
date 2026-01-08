@@ -16,9 +16,12 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,15 +41,20 @@ fun CreatePostScreen(
 ) {
 
     val context = LocalContext.current
-    val authViewModel = remember {
-        AuthViewModel(context)
-    }
-    val createPostViewModel = remember {
-        CreatePostViewModel(context)
-    }
+    val authViewModel = remember { AuthViewModel(context) }
+    val createPostViewModel = remember { CreatePostViewModel(context) }
 
     var prompt by remember { mutableStateOf("") }
     var tag by remember { mutableStateOf("") }
+
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    createPostViewModel.error?.let {
+        LaunchedEffect(it) {
+            snackbarHostState.showSnackbar(message = it)
+            createPostViewModel.errorShown()
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -54,7 +62,8 @@ fun CreatePostScreen(
                 navController = navController,
                 authViewModel = authViewModel
             )
-        }
+        },
+        snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { padding ->
 
         Column(
@@ -146,9 +155,6 @@ fun CreatePostScreen(
                                     tag = tag,
                                     onSuccess = {
                                         navController.popBackStack()
-                                    },
-                                    onError = {
-                                        // TODO Snackbar
                                     }
                                 )
                             },

@@ -1,9 +1,13 @@
 package pl.filipczuk.prompthub.features.auth.presentation.viewmodel
 
 import android.content.Context
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import pl.filipczuk.prompthub.core.data.Result
 import pl.filipczuk.prompthub.core.storage.FcmTokenStorage
 import pl.filipczuk.prompthub.features.auth.data.repository.AuthRepository
 import pl.filipczuk.prompthub.features.notifications.data.repository.FcmTokenRepository
@@ -16,18 +20,24 @@ class AuthViewModel(
     private val fcmTokenRepository = FcmTokenRepository(context)
     private val fcmTokenStorage = FcmTokenStorage(context)
 
+    var error by mutableStateOf<String?>(null)
+        private set
+
     fun login(
         email: String,
         password: String,
         onSuccess: () -> Unit
     ) {
         viewModelScope.launch {
-            try {
-                authRepository.login(email, password)
-                syncFcmToken()
-                onSuccess()
-            } catch (e: Exception) {
-                e.printStackTrace()
+            error = null
+            when (val result = authRepository.login(email, password)) {
+                is Result.Success -> {
+                    syncFcmToken()
+                    onSuccess()
+                }
+                is Result.Error -> {
+                    error = result.error
+                }
             }
         }
     }
@@ -39,12 +49,15 @@ class AuthViewModel(
         onSuccess: () -> Unit
     ) {
         viewModelScope.launch {
-            try {
-                authRepository.register(username, email, password)
-                syncFcmToken()
-                onSuccess()
-            } catch (e: Exception) {
-                e.printStackTrace()
+            error = null
+            when (val result = authRepository.register(username, email, password)) {
+                is Result.Success -> {
+                    syncFcmToken()
+                    onSuccess()
+                }
+                is Result.Error -> {
+                    error = result.error
+                }
             }
         }
     }
@@ -54,11 +67,7 @@ class AuthViewModel(
 
         if (fcmToken != null) {
             viewModelScope.launch {
-                try {
-                    fcmTokenRepository.updateUserToken(fcmToken)
-                } catch (e: Exception) {
-
-                }
+                fcmTokenRepository.updateUserToken(fcmToken)
             }
         }
     }
@@ -68,5 +77,9 @@ class AuthViewModel(
             authRepository.logout()
             onDone()
         }
+    }
+
+    fun errorShown() {
+        error = null
     }
 }
