@@ -8,6 +8,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kotlinx.coroutines.SupervisorJob
 import pl.filipczuk.prompthub.R
+import pl.filipczuk.prompthub.core.storage.FcmTokenStorage
 
 class PushNotificationService : FirebaseMessagingService() {
 
@@ -16,11 +17,8 @@ class PushNotificationService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
 
-        val sharedPrefs = getSharedPreferences("prompthub_prefs", MODE_PRIVATE)
-        with(sharedPrefs.edit()) {
-            putString("fcm_token", token)
-            apply()
-        }
+        val fcmTokenStorage = FcmTokenStorage(applicationContext)
+        fcmTokenStorage.saveToken(token)
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {

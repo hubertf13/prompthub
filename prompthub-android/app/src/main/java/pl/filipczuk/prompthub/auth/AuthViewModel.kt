@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import pl.filipczuk.prompthub.core.storage.FcmTokenStorage
 import pl.filipczuk.prompthub.repository.FcmTokenRepository
 
 class AuthViewModel(
@@ -12,7 +13,7 @@ class AuthViewModel(
 
     private val authRepository = AuthRepository(context)
     private val fcmTokenRepository = FcmTokenRepository(context)
-    private val sharedPrefs = context.getSharedPreferences("prompthub_prefs", Context.MODE_PRIVATE)
+    private val fcmTokenStorage = FcmTokenStorage(context)
 
     fun login(
         email: String,
@@ -48,17 +49,12 @@ class AuthViewModel(
     }
 
     private fun syncFcmToken() {
-        val fcmToken = sharedPrefs.getString("fcm_token", null)
+        val fcmToken = fcmTokenStorage.getToken()
 
         if (fcmToken != null) {
             viewModelScope.launch {
                 try {
                     fcmTokenRepository.updateUserToken(fcmToken)
-
-                    with(sharedPrefs.edit()) {
-                        remove("fcm_token")
-                        apply()
-                    }
                 } catch (e: Exception) {
 
                 }
