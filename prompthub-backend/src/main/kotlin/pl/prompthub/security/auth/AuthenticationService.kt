@@ -43,7 +43,7 @@ class AuthenticationService(
 
         saveUserToken(savedUser, jwtToken)
 
-        return AuthenticationResponse(token = jwtToken)
+        return AuthenticationResponse(token = jwtToken, username = savedUser.getActualUsername())
     }
 
     private fun revokeAllUserTokens(user: User) {
@@ -89,7 +89,7 @@ class AuthenticationService(
         revokeAllUserTokens(user)
         saveUserToken(user, jwtToken)
 
-        return AuthenticationResponse(token = jwtToken)
+        return AuthenticationResponse(token = jwtToken, username = user.getActualUsername())
     }
 
     private fun validateEmailAndUsernameNotExists(email: String, username: String) =
