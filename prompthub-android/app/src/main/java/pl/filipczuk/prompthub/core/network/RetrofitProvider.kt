@@ -5,10 +5,10 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import pl.filipczuk.prompthub.core.storage.TokenStorage
+import pl.filipczuk.prompthub.core.storage.AuthDataStorage
 
 class RetrofitProvider(
-    tokenStorage: TokenStorage
+    authDataStorage: AuthDataStorage
 ) {
 
     private val moshi: Moshi = Moshi.Builder()
@@ -16,7 +16,7 @@ class RetrofitProvider(
         .build()
 
     private val okHttpClient: OkHttpClient = OkHttpClient.Builder()
-        .addInterceptor(AuthInterceptor(tokenStorage))
+        .addInterceptor(AuthInterceptor(authDataStorage))
         .build()
 
     val retrofit: Retrofit = Retrofit.Builder()

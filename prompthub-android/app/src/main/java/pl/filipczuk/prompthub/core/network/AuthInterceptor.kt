@@ -3,11 +3,11 @@ package pl.filipczuk.prompthub.core.network
 import androidx.compose.runtime.getValue
 import okhttp3.Interceptor
 import okhttp3.Response
-import pl.filipczuk.prompthub.core.auth.AuthState
-import pl.filipczuk.prompthub.core.storage.TokenStorage
+import pl.filipczuk.prompthub.features.auth.domain.model.AuthState
+import pl.filipczuk.prompthub.core.storage.AuthDataStorage
 
 class AuthInterceptor(
-    private val tokenStorage: TokenStorage
+    private val authDataStorage: AuthDataStorage
 ) : Interceptor {
 
     val isLoggedIn by AuthState.isLoggedIn
@@ -16,14 +16,14 @@ class AuthInterceptor(
         val requestBuilder = chain.request().newBuilder()
 
         if (isLoggedIn) {
-            tokenStorage.getToken()?.let { token ->
+            authDataStorage.getToken()?.let { token ->
                 requestBuilder.addHeader(
                     "Authorization",
                     "Bearer $token"
                 )
             }
         } else {
-            tokenStorage.clear()
+            authDataStorage.clear()
         }
 
         return chain.proceed(requestBuilder.build())

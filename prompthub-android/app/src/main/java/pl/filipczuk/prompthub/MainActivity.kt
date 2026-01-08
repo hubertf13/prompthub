@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.rememberNavController
 import pl.filipczuk.prompthub.navigation.PromptHubNavGraph
-import pl.filipczuk.prompthub.ui.theme.PromptHubTheme
+import pl.filipczuk.prompthub.core.design_system.theme.PromptHubTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
