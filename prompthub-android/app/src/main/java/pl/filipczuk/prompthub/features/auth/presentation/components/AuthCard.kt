@@ -1,50 +1,71 @@
 package pl.filipczuk.prompthub.features.auth.presentation.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.Alignment
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun AuthCard(
     title: String,
     subtitle: String,
-    content: @Composable ColumnScope.() -> Unit,
     buttonText: String,
     onSubmit: () -> Unit,
-    footer: @Composable (() -> Unit)? = null
+    content: @Composable ColumnScope.() -> Unit
 ) {
-    Box(
+    Card(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .padding(16.dp),
-        contentAlignment = Alignment.Center
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        border = BorderStroke(1.dp, Color(0xFFF1F5F9)),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(20.dp)
+        Column(
+            modifier = Modifier.padding(32.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            Column(
-                modifier = Modifier.padding(24.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                Text(title, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
-                Text(subtitle, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF0F172A)
+                )
+                Text(
+                    text = subtitle,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color(0xFF64748B)
+                )
+            }
 
+            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 content()
+            }
 
-                Button(
-                    onClick = onSubmit,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(buttonText)
-                }
-
-                footer?.invoke()
+            Button(
+                onClick = onSubmit,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                shape = RoundedCornerShape(8.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF0F172A),
+                    contentColor = Color.White
+                )
+            ) {
+                Text(
+                    text = buttonText,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
             }
         }
     }
