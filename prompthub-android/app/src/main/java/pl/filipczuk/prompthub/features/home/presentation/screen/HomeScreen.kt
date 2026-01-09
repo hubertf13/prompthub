@@ -5,10 +5,13 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -36,7 +39,7 @@ import pl.filipczuk.prompthub.features.auth.presentation.viewmodel.AuthViewModel
 import pl.filipczuk.prompthub.features.home.presentation.components.PostItem
 import pl.filipczuk.prompthub.features.home.presentation.viewmodel.HomeViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     navController: NavController
@@ -101,28 +104,36 @@ fun HomeScreen(
                 .padding(padding)
                 .fillMaxSize()
         ) {
-
-            Column(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .fillMaxSize()
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(bottom = 16.dp)
             ) {
-                HeroSection()
-                Spacer(Modifier.height(24.dp))
-                SearchBar(
-                    value = viewModel.searchQuery,
-                    onValueChange = viewModel::onSearchQueryChange
-                )
-                Spacer(Modifier.height(16.dp))
+                item {
+                    Box(modifier = Modifier.padding(horizontal = 16.dp)) {
+                        HeroSection()
+                    }
+                    Spacer(Modifier.height(24.dp))
+                }
 
-                LazyColumn(
-                    contentPadding = PaddingValues(bottom = 16.dp),
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    items(
-                        items = viewModel.posts,
-                        key = { it.id }
-                    ) { post ->
+                stickyHeader {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color.Transparent)
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                    ) {
+                        SearchBar(
+                            value = viewModel.searchQuery,
+                            onValueChange = viewModel::onSearchQueryChange
+                        )
+                    }
+                }
+
+                items(
+                    items = viewModel.posts,
+                    key = { it.id }
+                ) { post ->
+                    Box(modifier = Modifier.padding(horizontal = 16.dp)) {
                         PostItem(
                             post = post,
                             viewModel = viewModel,
