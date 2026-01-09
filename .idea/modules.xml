@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/prompthub-backend.iml" filepath="$PROJECT_DIR$/prompthub-backend.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/prompthub-backend.main.iml" filepath="$PROJECT_DIR$/.idea/modules/prompthub-backend.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/prompthub-backend.test.iml" filepath="$PROJECT_DIR$/.idea/modules/prompthub-backend.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/prompthub-frontend/prompthub-frontend.iml" filepath="$PROJECT_DIR$/prompthub-frontend/prompthub-frontend.iml" />
     </modules>
   </component>
 </project>

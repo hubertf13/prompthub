@@ -5,3 +5,6 @@
 /prompthub-android/gradle/
 /prompthub-android/.idea/
 /prompthub-backend/src/main/resources/prompthub-766d6-firebase-adminsdk-fbsvc-780ff13b3b.json
+/prompthub-frontend/node_modules/
+/prompthub-frontend/.next/
+/prompthub-frontend/package-lock.json/
