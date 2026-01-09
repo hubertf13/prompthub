@@ -35,12 +35,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
+import pl.filipczuk.prompthub.core.design_system.theme.Green500
+import pl.filipczuk.prompthub.core.design_system.theme.Slate400
 import pl.filipczuk.prompthub.features.home.data.remote.PostResponse
 import pl.filipczuk.prompthub.features.home.presentation.viewmodel.HomeViewModel
 
@@ -69,8 +68,8 @@ fun PostItem(
             .fillMaxWidth()
             .padding(vertical = 8.dp),
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        border = BorderStroke(1.dp, Color(0xFFE2E8F0)),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Column(
@@ -83,13 +82,13 @@ fun PostItem(
                     modifier = Modifier
                         .size(40.dp)
                         .clip(CircleShape)
-                        .background(Color.White),
+                        .background(MaterialTheme.colorScheme.surface),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.AccountCircle,
                         contentDescription = null,
-                        tint = Color.Black,
+                        tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(40.dp)
                     )
                 }
@@ -102,14 +101,13 @@ fun PostItem(
                     Text(
                         text = post.author.username,
                         style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF1A202C)
+                        color = MaterialTheme.colorScheme.primary
                     )
 
                     Text(
                         text = post.author.email,
                         style = MaterialTheme.typography.bodySmall,
-                        color = Color(0xFF718096)
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
 
@@ -117,7 +115,7 @@ fun PostItem(
                     modifier = Modifier
                         .size(32.dp)
                         .clip(CircleShape)
-                        .background(Color(0xFFF7FAFC))
+                        .background(MaterialTheme.colorScheme.surfaceVariant)
                         .clickable {
                             val clip = ClipData.newPlainText("AI Prompt", post.prompt)
                             clipboardManager?.setPrimaryClip(clip)
@@ -131,7 +129,7 @@ fun PostItem(
                         imageVector = if (isCopied) Icons.Outlined.Check else Icons.Outlined.ContentCopy,
                         contentDescription = "Copy",
                         modifier = Modifier.size(16.dp),
-                        tint = if (isCopied) Color(0xFF48BB78) else Color(0xFFCBD5E0)
+                        tint = if (isCopied) Green500 else Slate400
                     )
                 }
             }
@@ -141,8 +139,7 @@ fun PostItem(
             Text(
                 text = post.prompt,
                 style = MaterialTheme.typography.bodyMedium,
-                color = Color(0xFF4A5568),
-                lineHeight = 20.sp
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -150,7 +147,7 @@ fun PostItem(
             Text(
                 text = "#${post.tag}",
                 style = MaterialTheme.typography.bodySmall,
-                color = Color(0xFF3182CE),
+                color = MaterialTheme.colorScheme.secondary,
                 modifier = Modifier.clickable {
                     onTagClick(post.tag)
                 }

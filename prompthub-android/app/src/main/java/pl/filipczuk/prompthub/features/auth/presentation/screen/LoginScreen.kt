@@ -33,7 +33,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import pl.filipczuk.prompthub.core.design_system.components.PromptHubTopBar
 import pl.filipczuk.prompthub.features.auth.presentation.components.AuthCard
@@ -66,7 +65,7 @@ fun LoginScreen(navController: NavController) {
             )
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
-        containerColor = Color(0xFFF8FAFC)
+        containerColor = Color.Transparent
     ) { padding ->
         Column(
             modifier = Modifier
@@ -90,20 +89,20 @@ fun LoginScreen(navController: NavController) {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
                         text = "Email",
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 14.sp,
-                        color = Color(0xFF1E293B)
+                        style = MaterialTheme.typography.labelLarge
                     )
                     OutlinedTextField(
                         value = email,
                         onValueChange = { email = it },
-                        placeholder = { Text("example@mail.com", color = Color(0xFF94A3B8)) },
+                        placeholder = { Text("example@mail.com", color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)) },
                         modifier = Modifier.fillMaxWidth(),
                         singleLine = true,
                         shape = RoundedCornerShape(8.dp),
                         colors = OutlinedTextFieldDefaults.colors(
-                            unfocusedBorderColor = Color(0xFFE2E8F0),
-                            focusedBorderColor = Color(0xFF0F172A)
+                            unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                            focusedBorderColor = MaterialTheme.colorScheme.primary,
+                            unfocusedContainerColor = Color.White,
+                            focusedContainerColor = Color.White
                         )
                     )
                 }
@@ -111,21 +110,21 @@ fun LoginScreen(navController: NavController) {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
                         text = "Password",
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 14.sp,
-                        color = Color(0xFF1E293B)
+                        style = MaterialTheme.typography.labelLarge
                     )
                     OutlinedTextField(
                         value = password,
                         onValueChange = { password = it },
-                        placeholder = { Text("password", color = Color(0xFF94A3B8)) },
+                        placeholder = { Text("password", color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)) },
                         visualTransformation = PasswordVisualTransformation(),
                         modifier = Modifier.fillMaxWidth(),
                         singleLine = true,
                         shape = RoundedCornerShape(8.dp),
                         colors = OutlinedTextFieldDefaults.colors(
-                            unfocusedBorderColor = Color(0xFFE2E8F0),
-                            focusedBorderColor = Color(0xFF0F172A)
+                            unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                            focusedBorderColor = MaterialTheme.colorScheme.primary,
+                            unfocusedContainerColor = Color.White,
+                            focusedContainerColor = Color.White
                         )
                     )
                 }
@@ -148,7 +147,7 @@ fun LoginScreen(navController: NavController) {
             Text(
                 text = annotatedString,
                 style = MaterialTheme.typography.bodyMedium,
-                color = Color(0xFF1E293B),
+                color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.clickable {
                     navController.navigate(Screen.Register.route)
                 }

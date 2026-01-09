@@ -10,12 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import pl.filipczuk.prompthub.core.design_system.theme.Amber500
+import pl.filipczuk.prompthub.core.design_system.theme.Orange500
+import pl.filipczuk.prompthub.core.design_system.theme.Orange600
 
 @Composable
 fun HeroSection() {
@@ -28,50 +27,37 @@ fun HeroSection() {
     ) {
         Text(
             text = "Discover & Share",
-            style = MaterialTheme.typography.headlineLarge,
-            fontWeight = FontWeight.ExtraBold,
-            fontSize = 48.sp,
-            lineHeight = 56.sp,
+            style = MaterialTheme.typography.displayLarge,
+            color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center
         )
 
         val gradient = Brush.horizontalGradient(
-            colors = listOf(
-                Color(0xFFFF9800),
-                Color(0xFFFF5722),
-                Color(0xFFFFC107)
-            )
+            colors = listOf(Orange500, Orange600, Amber500)
         )
 
         Text(
             text = "AI-Powered",
-            style = TextStyle(
-                brush = gradient,
-                fontSize = 48.sp,
-                fontWeight = FontWeight.ExtraBold,
-                textAlign = TextAlign.Center
+            style = MaterialTheme.typography.displayLarge.copy(
+                brush = gradient
             ),
-            lineHeight = 56.sp
+            textAlign = TextAlign.Center
         )
         
         Text(
             text = "Prompts",
-            style = TextStyle(
-                brush = gradient,
-                fontSize = 48.sp,
-                fontWeight = FontWeight.ExtraBold,
-                textAlign = TextAlign.Center
+            style = MaterialTheme.typography.displayLarge.copy(
+                brush = gradient
             ),
-            lineHeight = 56.sp
+            textAlign = TextAlign.Center
         )
 
         Text(
             text = "Promptopia is an open-source AI prompting tool for modern world to discover, create and share creative prompts",
             style = MaterialTheme.typography.bodyLarge,
-            color = Color.Gray,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(start = 24.dp, top = 16.dp, end = 24.dp),
-            lineHeight = 24.sp
+            modifier = Modifier.padding(start = 24.dp, top = 16.dp, end = 24.dp)
         )
     }
 }

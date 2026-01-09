@@ -25,12 +25,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import pl.filipczuk.prompthub.core.design_system.components.PromptHubTopBar
+import pl.filipczuk.prompthub.core.design_system.theme.Blue500
+import pl.filipczuk.prompthub.core.design_system.theme.Blue600
+import pl.filipczuk.prompthub.core.design_system.theme.Cyan500
 import pl.filipczuk.prompthub.features.auth.presentation.viewmodel.AuthViewModel
 import pl.filipczuk.prompthub.features.home.data.remote.PostResponse
 import pl.filipczuk.prompthub.features.post_manage.presentation.screen.DeletePostDialog
@@ -63,6 +63,7 @@ fun ProfileScreen(
     }
 
     Scaffold(
+        containerColor = Color.Transparent,
         topBar = {
             PromptHubTopBar(
                 navController = navController,
@@ -88,21 +89,14 @@ fun ProfileScreen(
                     .fillMaxSize()
             ) {
                 val gradient = Brush.horizontalGradient(
-                    colors = listOf(
-                        Color(0xFF2563EB),
-                        Color(0xFF3B82F6),
-                        Color(0xFF06B6D4)
-                    )
+                    colors = listOf(Blue600, Blue500, Cyan500)
                 )
 
                 Text(
                     text = "My Profile",
-                    style = TextStyle(
-                        brush = gradient,
-                        fontSize = 48.sp,
-                        fontWeight = FontWeight.ExtraBold
+                    style = MaterialTheme.typography.displayLarge.copy(
+                        brush = gradient
                     ),
-                    lineHeight = 56.sp,
                     modifier = Modifier.padding(top = 24.dp)
                 )
 
@@ -111,8 +105,7 @@ fun ProfileScreen(
                 Text(
                     text = "Welcome to your personalized profile page",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color(0xFF64748B),
-                    lineHeight = 24.sp
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
 
                 Spacer(Modifier.height(32.dp))

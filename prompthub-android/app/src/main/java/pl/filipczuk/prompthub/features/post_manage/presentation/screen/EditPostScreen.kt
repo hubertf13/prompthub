@@ -34,12 +34,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import pl.filipczuk.prompthub.core.design_system.components.PromptHubTopBar
+import pl.filipczuk.prompthub.core.design_system.theme.Blue500
+import pl.filipczuk.prompthub.core.design_system.theme.Blue600
+import pl.filipczuk.prompthub.core.design_system.theme.Cyan500
 import pl.filipczuk.prompthub.features.auth.presentation.viewmodel.AuthViewModel
 import pl.filipczuk.prompthub.features.post_manage.presentation.viewmodel.EditPostViewModel
 
@@ -80,7 +80,7 @@ fun EditPostScreen(
             )
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
-        containerColor = Color.White
+        containerColor = Color.Transparent
     ) { padding ->
 
         Column(
@@ -91,21 +91,14 @@ fun EditPostScreen(
         ) {
 
             val gradient = Brush.horizontalGradient(
-                colors = listOf(
-                    Color(0xFF2563EB),
-                    Color(0xFF3B82F6),
-                    Color(0xFF06B6D4)
-                )
+                colors = listOf(Blue600, Blue500, Cyan500)
             )
 
             Text(
                 text = "Edit Post",
-                style = TextStyle(
-                    brush = gradient,
-                    fontSize = 48.sp,
-                    fontWeight = FontWeight.ExtraBold
+                style = MaterialTheme.typography.displayLarge.copy(
+                    brush = gradient
                 ),
-                lineHeight = 56.sp,
                 modifier = Modifier.padding(top = 24.dp)
             )
 
@@ -114,8 +107,7 @@ fun EditPostScreen(
             Text(
                 text = "Edit and share amazing prompts with the world and let your imagination run wild with any AI-powered platform.",
                 style = MaterialTheme.typography.bodyLarge,
-                color = Color(0xFF64748B),
-                lineHeight = 24.sp
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
             Spacer(Modifier.height(32.dp))
@@ -123,7 +115,7 @@ fun EditPostScreen(
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
-                colors = CardDefaults.cardColors(containerColor = Color(0xFFF8FAFC)),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
                 elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
             ) {
                 Column(
@@ -135,23 +127,22 @@ fun EditPostScreen(
                         Text(
                             text = "Your AI Prompts",
                             style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold,
-                            color = Color(0xFF334155)
+                            color = MaterialTheme.colorScheme.onBackground
                         )
 
                         OutlinedTextField(
                             value = prompt,
                             onValueChange = { prompt = it },
-                            placeholder = { Text("Write your prompt here...", color = Color(0xFF94A3B8)) },
+                            placeholder = { Text("Write your prompt here...", color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)) },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(200.dp),
                             shape = RoundedCornerShape(8.dp),
                             colors = OutlinedTextFieldDefaults.colors(
-                                focusedContainerColor = Color.White,
-                                unfocusedContainerColor = Color.White,
-                                focusedBorderColor = Color(0xFFE2E8F0),
-                                unfocusedBorderColor = Color(0xFFE2E8F0)
+                                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                                focusedBorderColor = MaterialTheme.colorScheme.outline,
+                                unfocusedBorderColor = MaterialTheme.colorScheme.outline
                             )
                         )
                     }
@@ -160,22 +151,21 @@ fun EditPostScreen(
                         Text(
                             text = "Tag (#product, #webdevelopment, #idea)",
                             style = MaterialTheme.typography.bodySmall,
-                            fontWeight = FontWeight.Bold,
-                            color = Color(0xFF334155)
+                            color = MaterialTheme.colorScheme.onBackground
                         )
 
                         OutlinedTextField(
                             value = tag,
                             onValueChange = { tag = it },
-                            placeholder = { Text("#tag", color = Color(0xFF94A3B8)) },
+                            placeholder = { Text("#tag", color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)) },
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(8.dp),
                             singleLine = true,
                             colors = OutlinedTextFieldDefaults.colors(
-                                focusedContainerColor = Color.White,
-                                unfocusedContainerColor = Color.White,
-                                focusedBorderColor = Color(0xFFE2E8F0),
-                                unfocusedBorderColor = Color(0xFFE2E8F0)
+                                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                                focusedBorderColor = MaterialTheme.colorScheme.outline,
+                                unfocusedBorderColor = MaterialTheme.colorScheme.outline
                             )
                         )
                     }
@@ -195,8 +185,8 @@ fun EditPostScreen(
                         ) {
                             Text(
                                 "Cancel",
-                                color = Color(0xFF94A3B8),
-                                fontSize = 14.sp
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                style = MaterialTheme.typography.bodyMedium
                             )
                         }
 
@@ -217,14 +207,14 @@ fun EditPostScreen(
                             },
                             shape = RoundedCornerShape(30.dp),
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = Color(0xFFFF5722)
+                                containerColor = MaterialTheme.colorScheme.tertiary
                             ),
                             contentPadding = PaddingValues(horizontal = 24.dp, vertical = 12.dp)
                         ) {
                             Text(
                                 "Edit",
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 14.sp
+                                style = MaterialTheme.typography.labelLarge,
+                                color = MaterialTheme.colorScheme.onTertiary
                             )
                         }
                     }

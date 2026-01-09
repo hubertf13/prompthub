@@ -20,6 +20,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -35,7 +36,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import pl.filipczuk.prompthub.R
 import pl.filipczuk.prompthub.features.auth.domain.model.AuthState
@@ -82,7 +82,7 @@ fun PromptHubTopBar(
                         imageVector = Icons.Default.Menu,
                         contentDescription = "Menu",
                         modifier = Modifier.size(32.dp),
-                        tint = Color(0xFF0F172A)
+                        tint = MaterialTheme.colorScheme.primary
                     )
                 }
 
@@ -90,17 +90,17 @@ fun PromptHubTopBar(
                     expanded = menuExpanded,
                     onDismissRequest = { menuExpanded = false },
                     modifier = Modifier
-                        .background(Color.White)
+                        .background(MaterialTheme.colorScheme.surface)
                         .padding(vertical = 4.dp),
                     shape = RoundedCornerShape(12.dp),
-                    containerColor = Color.White
+                    containerColor = MaterialTheme.colorScheme.surface
                 ) {
                     DropdownMenuItem(
                         text = {
                             Text(
                                 "My Profile",
-                                color = Color(0xFF1E293B),
-                                fontSize = 14.sp,
+                                color = MaterialTheme.colorScheme.onBackground,
+                                style = MaterialTheme.typography.bodyMedium,
                                 fontWeight = FontWeight.Medium
                             )
                         },
@@ -115,8 +115,8 @@ fun PromptHubTopBar(
                         text = {
                             Text(
                                 "Create Prompt",
-                                color = Color(0xFF1E293B),
-                                fontSize = 14.sp,
+                                color = MaterialTheme.colorScheme.onBackground,
+                                style = MaterialTheme.typography.bodyMedium,
                                 fontWeight = FontWeight.Medium
                             )
                         },
@@ -132,15 +132,14 @@ fun PromptHubTopBar(
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .background(Color(0xFF0F172A), shape = RoundedCornerShape(8.dp))
+                                    .background(MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(8.dp))
                                     .padding(vertical = 10.dp, horizontal = 12.dp),
                                 contentAlignment = Alignment.CenterStart
                             ) {
                                 Text(
                                     "Log Out",
-                                    color = Color.White,
-                                    fontSize = 14.sp,
-                                    fontWeight = FontWeight.Bold
+                                    color = MaterialTheme.colorScheme.onPrimary,
+                                    style = MaterialTheme.typography.labelLarge
                                 )
                             }
                         },
@@ -163,16 +162,15 @@ fun PromptHubTopBar(
                     OutlinedButton(
                         onClick = { navController.navigate(Screen.Login.route) },
                         shape = RoundedCornerShape(30.dp),
-                        border = BorderStroke(1.dp, Color(0xFFE2E8F0)),
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
                         colors = ButtonDefaults.outlinedButtonColors(
-                            contentColor = Color.Black
+                            contentColor = MaterialTheme.colorScheme.onBackground
                         ),
                         modifier = Modifier.padding(end = 8.dp)
                     ) {
                         Text(
                             text = "Log In",
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 14.sp
+                            style = MaterialTheme.typography.labelLarge
                         )
                     }
 
@@ -180,14 +178,13 @@ fun PromptHubTopBar(
                         onClick = { navController.navigate(Screen.Register.route) },
                         shape = RoundedCornerShape(30.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF0F172A),
-                            contentColor = Color.White
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            contentColor = MaterialTheme.colorScheme.onPrimary
                         )
                     ) {
                         Text(
                             text = "Register",
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 14.sp
+                            style = MaterialTheme.typography.labelLarge
                         )
                     }
                 }
