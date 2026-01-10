@@ -14,3 +14,8 @@ export const schemaRegister = z.object({
     message: "Passwords must be identical",
     path: ["passwordConfirm"],
 });
+
+export const schemaPrompt = z.object({
+  prompt: z.string().min(3, "Prompt must be at least 3 characters long."),
+  tag: z.string().min(1, "Tag is required (e.g. #product, #webdevelopment)."),
+});

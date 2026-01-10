@@ -55,7 +55,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex h-screen w-full items-center justify-center bg-gray-50 px-4">
+    <div className="flex h-screen w-full items-center justify-center px-4">
       <RegisterForm form={form} onSubmit={onSubmit} />
     </div>
   );
