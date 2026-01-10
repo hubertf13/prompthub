@@ -2,23 +2,32 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
-import { signIn, signOut, useSession, getProviders } from 'next-auth/react'
+import { useState } from 'react'
+import { signOut, useSession } from 'next-auth/react'
+
+const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
 const Nav = () => {
     const { data: session } = useSession();
-
-    const [providers, setProviders] = useState(null)
     const [toggleDropdown, setToggleDropdown] = useState(false)
 
-    useEffect(() => {
-        const setProviders = async () => {
-            const response = await getProviders()
-            setProviders(response)
+    const handleSignOut = async () => {
+        try {
+            if (session?.user?.token) {
+                await fetch(`${baseUrl}/api/v1/auth/logout`, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${session.user.token}`,
+                        "Content-Type": "application/json"
+                    }
+                });
+            }
+        } catch (error) {
+            console.error("Error logging out from backend:", error);
+        } finally {
+            await signOut({ callbackUrl: '/login' });
         }
-
-        setProviders()
-    }, [])
+    };
 
     return (
         <nav className='flex-between w-full mb-16 pt-3'>
@@ -40,13 +49,13 @@ const Nav = () => {
                             Create Post
                         </Link>
 
-                        <button type='button' onClick={signOut} className='outline_btn'>
+                        <button type='button' onClick={handleSignOut} className='outline_btn'>
                             Sign Out
                         </button>
 
                         <Link href='/profile'>
                             <Image
-                                src='/assets/images/logo.svg'
+                                src={session?.user.image || '/assets/images/logo.svg'}
                                 width={37}
                                 height={37}
                                 className='rounded-full'
@@ -55,19 +64,9 @@ const Nav = () => {
                         </Link>
                     </div>
                 ) : (
-                    <>
-                        {providers
-                            && Object.values(providers).map((provider) => (
-                                <button
-                                    type='button'
-                                    key={provider.name}
-                                    onClick={() => signIn(provider.id)}
-                                    className='black_btn'
-                                >
-                                    Sign In
-                                </button>
-                            ))}
-                    </>
+                    <Link href="/login" className='black_btn'>
+                        Sign In
+                    </Link>
                 )}
             </div>
 
@@ -75,7 +74,7 @@ const Nav = () => {
                 {session?.user ? (
                     <div className='flex'>
                         <Image
-                            src='/assets/images/logo.svg'
+                            src={session?.user.image || '/assets/images/logo.svg'}
                             width={37}
                             height={37}
                             className='rounded-full'
@@ -99,11 +98,12 @@ const Nav = () => {
                                 >
                                     Create Prompt
                                 </Link>
+                                {/* ZMIANA: Tutaj również nasza funkcja */}
                                 <button
                                     type='button'
                                     onClick={() => {
-                                        setToggleDropdown(false)
-                                        signOut()
+                                        setToggleDropdown(false);
+                                        handleSignOut();
                                     }}
                                     className='mt-5 w-full black_btn'
                                 >
@@ -113,22 +113,11 @@ const Nav = () => {
                         )}
                     </div>
                 ) : (
-                    <>
-                        {providers
-                            && Object.values(providers).map((provider) => (
-                                <button
-                                    type='button'
-                                    key={provider.name}
-                                    onClick={() => signIn(provider.id)}
-                                    className='black_btn'
-                                >
-                                    Sign In
-                                </button>
-                            ))}
-                    </>
+                    <Link href="/login" className='black_btn'>
+                        Sign In
+                    </Link>
                 )}
             </div>
-
         </nav>
     )
 }
