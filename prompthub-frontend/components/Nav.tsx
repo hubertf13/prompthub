@@ -17,8 +17,7 @@ const Nav = () => {
                 await fetch(`${baseUrl}/api/v1/auth/logout`, {
                     method: "POST",
                     headers: {
-                        "Authorization": `Bearer ${session.user.token}`,
-                        "Content-Type": "application/json"
+                        "Authorization": `Bearer ${session.user.token}`
                     }
                 });
             }
