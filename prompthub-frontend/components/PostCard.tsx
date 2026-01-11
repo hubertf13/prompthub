@@ -2,9 +2,11 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { Post } from "../types"
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import { Post } from "../types"
+
+const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
 interface PostCardProps {
   post: Post;
@@ -19,10 +21,24 @@ const PostCard = ({ post, handleTagClick, handleEdit, handleDelete }: PostCardPr
 
   const [copied, setCopied] = useState("");
 
+  const notifyPostCopied = async () => {
+    try {
+      await fetch(`${baseUrl}/api/v1/post/copy/${post.id}`, {
+        method: "POST"
+      });
+    } catch (error) {
+      console.error("Failed to notify backend about copy: ", error);
+    }
+  }
+
   const handleCopy = () => {
     setCopied(post.prompt);
-    navigator.clipboard.writeText(post.prompt);
-    setTimeout(() => setCopied(""), 3000);
+    navigator.clipboard.writeText(post.prompt).then(() => {
+      setTimeout(() => setCopied(""), 3000);
+      notifyPostCopied();
+    }, (err) => {
+      console.error('Could not copy text: ', err);
+    });
   }
 
   return (

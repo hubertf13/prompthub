@@ -9,17 +9,18 @@ import pl.prompthub.security.user.User
 @Service
 class PushNotificationService() {
 
-    fun sendCopyNotification(receiver: User) {
-        val notification = Notification.builder()
-            .setTitle("Your prompt was copied")
-            .setBody("Some user copied your prompt")
-            .build()
+    fun sendCopyNotification(receiver: User) =
+        receiver.fcmToken?.takeIf { it.isNotBlank() }?.let { token ->
+            val notification = Notification.builder()
+                .setTitle("Your prompt was copied")
+                .setBody("Some user copied your prompt")
+                .build()
 
-        val message = Message.builder()
-            .setToken(receiver.fcmToken)
-            .setNotification(notification)
-            .build()
+            val message = Message.builder()
+                .setToken(token)
+                .setNotification(notification)
+                .build()
 
-        FirebaseMessaging.getInstance().send(message)
-    }
+            FirebaseMessaging.getInstance().send(message)
+        }
 }

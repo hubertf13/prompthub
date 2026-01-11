@@ -2,6 +2,7 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="pl.prompthub.prompthub-backend.test" target="21" />
       <module name="prompthub-backend" target="21" />
       <module name="prompthub-backend.main" target="21" />
       <module name="prompthub-backend.test" target="21" />
@@ -9,6 +10,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="pl.prompthub.prompthub-backend.test" options="-parameters" />
       <module name="prompthub-backend" options="-parameters" />
       <module name="prompthub-backend.main" options="-parameters" />
       <module name="prompthub-backend.test" options="-parameters" />

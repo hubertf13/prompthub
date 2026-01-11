@@ -23,12 +23,16 @@ class AuthViewModel(
     var error by mutableStateOf<String?>(null)
         private set
 
+    var isLoading by mutableStateOf(false)
+        private set
+
     fun login(
         email: String,
         password: String,
         onSuccess: () -> Unit
     ) {
         viewModelScope.launch {
+            isLoading = true
             error = null
             when (val result = authRepository.login(email, password)) {
                 is Result.Success -> {
@@ -39,6 +43,7 @@ class AuthViewModel(
                     error = result.error
                 }
             }
+            isLoading = false
         }
     }
 
@@ -49,6 +54,7 @@ class AuthViewModel(
         onSuccess: () -> Unit
     ) {
         viewModelScope.launch {
+            isLoading = true
             error = null
             when (val result = authRepository.register(username, email, password)) {
                 is Result.Success -> {
@@ -59,6 +65,7 @@ class AuthViewModel(
                     error = result.error
                 }
             }
+            isLoading = false
         }
     }
 

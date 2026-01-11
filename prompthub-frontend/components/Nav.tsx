@@ -63,9 +63,14 @@ const Nav = () => {
                         </Link>
                     </div>
                 ) : (
-                    <Link href="/login" className='black_btn'>
-                        Sign In
-                    </Link>
+                    <div className='flex gap-3'>
+                        <Link href="/login" className='outline_btn'>
+                            Log In
+                        </Link>
+                        <Link href="/register" className='black_btn'>
+                            Register
+                        </Link>
+                    </div>
                 )}
             </div>
 
@@ -97,7 +102,6 @@ const Nav = () => {
                                 >
                                     Create Prompt
                                 </Link>
-                                {/* ZMIANA: Tutaj również nasza funkcja */}
                                 <button
                                     type='button'
                                     onClick={() => {
@@ -112,9 +116,14 @@ const Nav = () => {
                         )}
                     </div>
                 ) : (
-                    <Link href="/login" className='black_btn'>
-                        Sign In
-                    </Link>
+                    <div className='flex gap-3'>
+                        <Link href="/login" className='outline_btn'>
+                            Log In
+                        </Link>
+                        <Link href="/register" className='black_btn'>
+                            Register
+                        </Link>
+                    </div>
                 )}
             </div>
         </nav>

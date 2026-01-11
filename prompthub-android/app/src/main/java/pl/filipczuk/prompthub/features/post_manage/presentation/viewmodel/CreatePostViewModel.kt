@@ -19,12 +19,16 @@ class CreatePostViewModel(
     var error by mutableStateOf<String?>(null)
         private set
 
+    var isCreating by mutableStateOf(false)
+        private set
+
     fun createPost(
         prompt: String,
         tag: String,
         onSuccess: () -> Unit
     ) {
         viewModelScope.launch {
+            isCreating = true
             error = null
             when (val result = repository.createPost(prompt, tag)) {
                 is Result.Success -> {
@@ -34,6 +38,7 @@ class CreatePostViewModel(
                     error = result.error
                 }
             }
+            isCreating = false
         }
     }
 

@@ -48,7 +48,6 @@ class HomeViewModel(
             when (val result = repository.getAllPosts()) {
                 is Result.Success -> {
                     allPosts = result.data
-                    // Nie musimy wywoływać applyFilter()! posts zaktualizuje się samo.
                 }
                 is Result.Error -> {
                     error = result.error

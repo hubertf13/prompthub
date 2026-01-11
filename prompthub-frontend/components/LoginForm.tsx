@@ -22,7 +22,7 @@ export function LoginForm({
                 <div className="mb-6 text-center">
                     <h2 className="text-3xl font-bold text-gray-900">Log in</h2>
                     <p className="text-gray-500 mt-2 text-sm">
-                        Enter your credentials to access
+                        Enter your details to log in to your account
                     </p>
                 </div>
 
@@ -46,7 +46,7 @@ export function LoginForm({
                         <input
                             id="password"
                             type="password"
-                            placeholder="••••••••"
+                            placeholder="password"
                             {...register("password")}
                             className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all ${errors.password ? "border-red-500" : "border-gray-300"
                                 }`}

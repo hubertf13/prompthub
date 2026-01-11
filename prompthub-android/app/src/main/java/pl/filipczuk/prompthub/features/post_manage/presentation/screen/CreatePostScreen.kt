@@ -9,12 +9,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -130,6 +132,7 @@ fun CreatePostScreen(
                                 .fillMaxWidth()
                                 .height(200.dp),
                             shape = RoundedCornerShape(8.dp),
+                            enabled = !createPostViewModel.isCreating,
                             colors = OutlinedTextFieldDefaults.colors(
                                 focusedContainerColor = MaterialTheme.colorScheme.surface,
                                 unfocusedContainerColor = MaterialTheme.colorScheme.surface,
@@ -153,6 +156,7 @@ fun CreatePostScreen(
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(8.dp),
                             singleLine = true,
+                            enabled = !createPostViewModel.isCreating,
                             colors = OutlinedTextFieldDefaults.colors(
                                 focusedContainerColor = MaterialTheme.colorScheme.surface,
                                 unfocusedContainerColor = MaterialTheme.colorScheme.surface,
@@ -173,7 +177,8 @@ fun CreatePostScreen(
                         TextButton(
                             onClick = {
                                 navController.popBackStack()
-                            }
+                            },
+                            enabled = !createPostViewModel.isCreating
                         ) {
                             Text(
                                 "Cancel",
@@ -196,17 +201,35 @@ fun CreatePostScreen(
                                     }
                                 )
                             },
+                            enabled = !createPostViewModel.isCreating,
                             shape = RoundedCornerShape(30.dp),
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.tertiary
+                                containerColor = MaterialTheme.colorScheme.tertiary,
+                                disabledContainerColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.6f),
+                                disabledContentColor = MaterialTheme.colorScheme.onTertiary.copy(alpha = 0.8f)
                             ),
                             contentPadding = PaddingValues(horizontal = 24.dp, vertical = 12.dp)
                         ) {
-                            Text(
-                                "Create",
-                                style = MaterialTheme.typography.labelLarge,
-                                color = MaterialTheme.colorScheme.onTertiary
-                            )
+                            if (createPostViewModel.isCreating) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.size(20.dp),
+                                        color = MaterialTheme.colorScheme.onTertiary,
+                                        strokeWidth = 2.dp
+                                    )
+                                    Spacer(Modifier.width(12.dp))
+                                    Text(
+                                        "Creating...",
+                                        style = MaterialTheme.typography.labelLarge
+                                    )
+                                }
+                            } else {
+                                Text(
+                                    "Create",
+                                    style = MaterialTheme.typography.labelLarge,
+                                    color = MaterialTheme.colorScheme.onTertiary
+                                )
+                            }
                         }
                     }
                 }

@@ -75,9 +75,11 @@ fun LoginScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center
         ) {
             AuthCard(
-                title = "Login",
+                title = "Log in",
                 subtitle = "Enter your details to log in to your account",
-                buttonText = "Login",
+                buttonText = "Log in",
+                isLoading = authViewModel.isLoading,
+                loadingText = "Logging in...",
                 onSubmit = {
                     authViewModel.login(email, password) {
                         navController.navigate(Screen.Home.route) {

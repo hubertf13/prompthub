@@ -86,6 +86,7 @@ const MyProfile = () => {
         <Profile
             name="My"
             desc="Welcome to your personalized profile page"
+            username={session?.user?.username || ""}
             data={allPosts}
             handleEdit={handleEdit}
             handleDelete={handleDelete}

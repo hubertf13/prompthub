@@ -114,7 +114,7 @@ fun PromptHubTopBar(
                     DropdownMenuItem(
                         text = {
                             Text(
-                                "Create Prompt",
+                                "Create Post",
                                 color = MaterialTheme.colorScheme.onBackground,
                                 style = MaterialTheme.typography.bodyMedium,
                                 fontWeight = FontWeight.Medium
@@ -162,7 +162,7 @@ fun PromptHubTopBar(
                     OutlinedButton(
                         onClick = { navController.navigate(Screen.Login.route) },
                         shape = RoundedCornerShape(30.dp),
-                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
+                        border = BorderStroke(1.dp, Color.Black),
                         colors = ButtonDefaults.outlinedButtonColors(
                             contentColor = MaterialTheme.colorScheme.onBackground
                         ),

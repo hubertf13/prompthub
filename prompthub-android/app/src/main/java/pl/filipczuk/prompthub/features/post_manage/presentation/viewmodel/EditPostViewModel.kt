@@ -22,6 +22,8 @@ class EditPostViewModel(
         private set
     var isLoading by mutableStateOf(false)
         private set
+    var isUpdating by mutableStateOf(false)
+        private set
     var error by mutableStateOf<String?>(null)
         private set
 
@@ -49,6 +51,7 @@ class EditPostViewModel(
         onSuccess: () -> Unit
     ) {
         viewModelScope.launch {
+            isUpdating = true
             error = null
             val postRequest = UpdatePostRequest(
                 prompt = prompt,
@@ -62,6 +65,7 @@ class EditPostViewModel(
                     error = result.error
                 }
             }
+            isUpdating = false
         }
     }
 

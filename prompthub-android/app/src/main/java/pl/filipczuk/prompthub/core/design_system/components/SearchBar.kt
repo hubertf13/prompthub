@@ -32,7 +32,7 @@ fun SearchBar(
         placeholder = {
             Text(
                 text = "Search for a tag or a username",
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
                 style = MaterialTheme.typography.bodyMedium
             )
         },

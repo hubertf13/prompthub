@@ -78,9 +78,11 @@ fun RegisterScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center
         ) {
             AuthCard(
-                title = "Register",
+                title = "Registration",
                 subtitle = "Enter your details to create a new account",
                 buttonText = "Create account",
+                isLoading = authViewModel.isLoading,
+                loadingText = "Creating account...",
                 onSubmit = {
                     if (password != confirmPassword) {
                         passwordError = true
@@ -163,7 +165,7 @@ fun RegisterScreen(navController: NavController) {
 
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
-                        text = "Password Confirm",
+                        text = "Confirm password",
                         style = MaterialTheme.typography.labelLarge
                     )
                     OutlinedTextField(
@@ -172,7 +174,7 @@ fun RegisterScreen(navController: NavController) {
                             confirmPassword = it
                             passwordError = false
                         },
-                        placeholder = { Text("password confirm", color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)) },
+                        placeholder = { Text("confirm password", color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)) },
                         visualTransformation = PasswordVisualTransformation(),
                         modifier = Modifier.fillMaxWidth(),
                         singleLine = true,
@@ -199,7 +201,7 @@ fun RegisterScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(32.dp))
 
             val annotatedString = buildAnnotatedString {
-                append("Have an account? ")
+                append("Already have an account? ")
                 withStyle(
                     style = SpanStyle(
                         textDecoration = TextDecoration.Underline,

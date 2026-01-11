@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -23,32 +25,84 @@ fun AppBackground(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(
-                    Brush.radialGradient(
-                        colors = listOf(
-                            Color(0xFFEDE7F6).copy(alpha = 0.4f),
-                            Color.White
-                        ),
-                        center = Offset(0f, 0f),
-                        radius = 2000f
-                    )
+                .graphicsLayer(alpha = 0.15f)
+                .blur(100.dp)
+        ) {
+            Canvas(modifier = Modifier.fillMaxSize()) {
+                val w = size.width
+                val h = size.height
+
+                drawCircle(
+                    brush = Brush.radialGradient(
+                        colors = listOf(Color.hsl(215f, 0.98f, 0.61f), Color.Transparent),
+                        center = Offset(w * 0.27f, h * 0.37f),
+                        radius = w * 0.6f
+                    ),
+                    center = Offset(w * 0.27f, h * 0.37f),
+                    radius = w * 0.6f
                 )
-        )
-        
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    Brush.radialGradient(
-                        colors = listOf(
-                            Color(0xFFFFFDE7).copy(alpha = 0.4f),
-                            Color.Transparent
-                        ),
-                        center = Offset(1000f, 1500f),
-                        radius = 2000f
-                    )
+
+                drawCircle(
+                    brush = Brush.radialGradient(
+                        colors = listOf(Color.hsl(125f, 0.98f, 0.72f), Color.Transparent),
+                        center = Offset(w * 0.97f, h * 0.21f),
+                        radius = w * 0.6f
+                    ),
+                    center = Offset(w * 0.97f, h * 0.21f),
+                    radius = w * 0.6f
                 )
-        )
+
+                drawCircle(
+                    brush = Brush.radialGradient(
+                        colors = listOf(Color.hsl(354f, 0.98f, 0.61f), Color.Transparent),
+                        center = Offset(w * 0.52f, h * 0.99f),
+                        radius = w * 0.6f
+                    ),
+                    center = Offset(w * 0.52f, h * 0.99f),
+                    radius = w * 0.6f
+                )
+
+                drawCircle(
+                    brush = Brush.radialGradient(
+                        colors = listOf(Color.hsl(256f, 0.96f, 0.67f), Color.Transparent),
+                        center = Offset(w * 0.10f, h * 0.29f),
+                        radius = w * 0.6f
+                    ),
+                    center = Offset(w * 0.10f, h * 0.29f),
+                    radius = w * 0.6f
+                )
+
+                drawCircle(
+                    brush = Brush.radialGradient(
+                        colors = listOf(Color.hsl(38f, 0.60f, 0.74f), Color.Transparent),
+                        center = Offset(w * 0.97f, h * 0.96f),
+                        radius = w * 0.6f
+                    ),
+                    center = Offset(w * 0.97f, h * 0.96f),
+                    radius = w * 0.6f
+                )
+
+                drawCircle(
+                    brush = Brush.radialGradient(
+                        colors = listOf(Color.hsl(222f, 0.67f, 0.73f), Color.Transparent),
+                        center = Offset(w * 0.33f, h * 0.50f),
+                        radius = w * 0.6f
+                    ),
+                    center = Offset(w * 0.33f, h * 0.50f),
+                    radius = w * 0.6f
+                )
+
+                drawCircle(
+                    brush = Brush.radialGradient(
+                        colors = listOf(Color.hsl(343f, 0.68f, 0.79f), Color.Transparent),
+                        center = Offset(w * 0.79f, h * 0.53f),
+                        radius = w * 0.6f
+                    ),
+                    center = Offset(w * 0.79f, h * 0.53f),
+                    radius = w * 0.6f
+                )
+            }
+        }
 
         Canvas(modifier = Modifier.fillMaxSize()) {
             val gridSpacing = 30.dp.toPx()

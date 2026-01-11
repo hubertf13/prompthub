@@ -9,12 +9,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -138,6 +140,7 @@ fun EditPostScreen(
                                 .fillMaxWidth()
                                 .height(200.dp),
                             shape = RoundedCornerShape(8.dp),
+                            enabled = !editPostViewModel.isUpdating,
                             colors = OutlinedTextFieldDefaults.colors(
                                 focusedContainerColor = MaterialTheme.colorScheme.surface,
                                 unfocusedContainerColor = MaterialTheme.colorScheme.surface,
@@ -161,6 +164,7 @@ fun EditPostScreen(
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(8.dp),
                             singleLine = true,
+                            enabled = !editPostViewModel.isUpdating,
                             colors = OutlinedTextFieldDefaults.colors(
                                 focusedContainerColor = MaterialTheme.colorScheme.surface,
                                 unfocusedContainerColor = MaterialTheme.colorScheme.surface,
@@ -181,7 +185,8 @@ fun EditPostScreen(
                         TextButton(
                             onClick = {
                                 navController.popBackStack()
-                            }
+                            },
+                            enabled = !editPostViewModel.isUpdating
                         ) {
                             Text(
                                 "Cancel",
@@ -205,22 +210,40 @@ fun EditPostScreen(
                                     }
                                 )
                             },
+                            enabled = !editPostViewModel.isUpdating,
                             shape = RoundedCornerShape(30.dp),
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.tertiary
+                                containerColor = MaterialTheme.colorScheme.tertiary,
+                                disabledContainerColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.6f),
+                                disabledContentColor = MaterialTheme.colorScheme.onTertiary.copy(alpha = 0.8f)
                             ),
                             contentPadding = PaddingValues(horizontal = 24.dp, vertical = 12.dp)
                         ) {
-                            Text(
-                                "Edit",
-                                style = MaterialTheme.typography.labelLarge,
-                                color = MaterialTheme.colorScheme.onTertiary
-                            )
+                            if (editPostViewModel.isUpdating) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.size(20.dp),
+                                        color = MaterialTheme.colorScheme.onTertiary,
+                                        strokeWidth = 2.dp
+                                    )
+                                    Spacer(Modifier.width(12.dp))
+                                    Text(
+                                        "Editing...",
+                                        style = MaterialTheme.typography.labelLarge
+                                    )
+                                }
+                            } else {
+                                Text(
+                                    "Edit",
+                                    style = MaterialTheme.typography.labelLarge,
+                                    color = MaterialTheme.colorScheme.onTertiary
+                                )
+                            }
                         }
                     }
                 }
             }
-            
+
             Spacer(Modifier.height(40.dp))
         }
     }

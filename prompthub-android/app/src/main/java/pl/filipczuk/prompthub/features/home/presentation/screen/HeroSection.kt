@@ -53,7 +53,7 @@ fun HeroSection() {
         )
 
         Text(
-            text = "Promptopia is an open-source AI prompting tool for modern world to discover, create and share creative prompts",
+            text = "PromptHub is an open-source AI prompting tool for modern world to discover, create and share creative prompts",
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
